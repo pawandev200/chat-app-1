@@ -1,14 +1,13 @@
 {
-    "name": "chat-app-1",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-      
-      "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
-      "start": "npm run start --prefix backend"
-    },
-    "keywords": [],
-    "author": "Pawandev",
-    "license": "ISC"
-  }
+  "name": "real-time-chat-app",
+  "version": "1.0.0",
+  "description": "A responsive web application for real-time one-on-one messaging, featuring customizable themes and media sharing.",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend"
+  },
+  "keywords": ["real-time", "chat", "messaging", "web application", "react", "socket.io", "MERN"],
+  "author": "Pawandev",
+  "license": "MIT"
+}
