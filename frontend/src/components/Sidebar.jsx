@@ -101,12 +101,16 @@ const Sidebar = () => {
   const { onlineUsers } = useAuthStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
 
+  //1. users: array of users fetched from the server
+  //2. onlineUsers: array of online users fetched from the server
+
+  // fetching users for sidebars as soon as home page loads
   useEffect(() => {
     getUsers();
   }, [getUsers]);
 
-  const filteredUsers = showOnlineOnly
-    ? users.filter((user) => onlineUsers.includes(user._id))
+  // filtering users based on the online status
+  const filteredUsers = showOnlineOnly ? users.filter((user) => onlineUsers.includes(user._id))
     : users;
 
   if (isUsersLoading) return <SidebarSkeleton />;

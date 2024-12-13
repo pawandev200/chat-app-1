@@ -15,7 +15,6 @@ const MessageInput = () => {
       toast.error("Please select an image file");
       return;
     }
-
     const reader = new FileReader();
     reader.onloadend = () => {
       setImagePreview(reader.result);
@@ -81,7 +80,7 @@ const MessageInput = () => {
           <input
             type="file"
             accept="image/*"
-            className="hidden"
+            className="hidden" // Hide the file input to look like a image button 
             ref={fileInputRef}
             onChange={handleImageChange}
           />
@@ -92,7 +91,7 @@ const MessageInput = () => {
                      ${imagePreview ? "text-emerald-500" : "text-zinc-400"}`}
             onClick={() => fileInputRef.current?.click()}
           >
-            <Image size={20} />
+            <Image size={20} /> 
           </button>
         </div>
         <button

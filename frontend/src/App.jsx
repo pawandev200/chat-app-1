@@ -16,16 +16,18 @@ import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
-  const { theme } = useThemeStore();
+  const { theme } = useThemeStore(); //getting the theme selected by the user
 
   // console.log({ onlineUsers });
-
+  
+//calling checkauth function as soon as the component mounts/ we visit the application
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
   // console.log({ authUser });
 
+// if the user is not authenticated and we are checking the authentication, we will show a loader
   if (isCheckingAuth && !authUser)
     return (
       <div className="flex items-center justify-center h-screen">
@@ -34,7 +36,8 @@ const App = () => {
     );
 
   return (
-    <div data-theme={theme}>
+    //setting the theme for entire application based on the theme selected by the user
+    <div data-theme={theme}>  
       <Navbar />
 
       <Routes>

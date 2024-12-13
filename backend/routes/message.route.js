@@ -7,6 +7,6 @@ const router = express.Router();
 router.get("/users", protectRoute, getUsersForSidebar);
 router.get("/:id", protectRoute, getMessages);
 
-router.post("/send/:id", protectRoute, sendMessage);
+router.post("/send/:id", protectRoute, sendMessage); //sending message: could be text or image
 
 export default router;

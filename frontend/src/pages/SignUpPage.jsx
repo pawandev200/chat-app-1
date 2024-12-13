@@ -7,8 +7,8 @@ import AuthImagePattern from "../components/AuthImagePattern";
 import toast from "react-hot-toast";
 
 const SignUpPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
+  const [showPassword, setShowPassword] = useState(false); // state to toggle password visibility
+  const [formData, setFormData] = useState({ // state to store form data
     fullName: "",
     email: "",
     password: "",
@@ -31,7 +31,7 @@ const SignUpPage = () => {
 
     const success = validateForm();
 
-    if (success === true) signup(formData);
+    if (success === true) signup(formData); // if from is valid, then calling signup function to send data to the server
   };
 
   return (
@@ -65,7 +65,7 @@ const SignUpPage = () => {
                 <input
                   type="text"
                   className={`input input-bordered w-full pl-10`}
-                  placeholder="John Doe"
+                  placeholder="Pawandev kumar"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                 />
@@ -119,6 +119,8 @@ const SignUpPage = () => {
               </div>
             </div>
 
+           {/* lodading: if the user is signing up, then we will show a loader and a message "Loading...", by disabling singup button */}
+           {/* if state isSignUp is true, then loading... text else create account button */}
             <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp}>
               {isSigningUp ? (
                 <>
@@ -142,7 +144,7 @@ const SignUpPage = () => {
         </div>
       </div>
 
-      {/* right side */}
+      {/* Right Side - Image/Pattern */}
 
       <AuthImagePattern
         title="Join our community"

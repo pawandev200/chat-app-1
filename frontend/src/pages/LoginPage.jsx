@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare } from "lucide-react";
 
 const LoginPage = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
+  const [showPassword, setShowPassword] = useState(false); // state to toggle password visibility
+  const [formData, setFormData] = useState({ // state to store form data
     email: "",
     password: "",
   });
@@ -14,7 +14,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    login(formData);
+    login(formData); // calling the login function to send data to the server
   };
 
   return (
@@ -84,7 +84,9 @@ const LoginPage = () => {
                 </button>
               </div>
             </div>
-
+{/* if the user is not authenticated and we are checking the authentication, we will show a loader */}
+{/* lodading: if the user is loggin, then we will show a loader and a message "Loading...", by disabling singup button */}
+           {/* if state isLoggIn is true, then loading... text else create account button */}
             <button type="submit" className="btn btn-primary w-full" disabled={isLoggingIn}>
               {isLoggingIn ? (
                 <>

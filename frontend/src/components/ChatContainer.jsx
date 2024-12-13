@@ -17,22 +17,24 @@ const ChatContainer = () => {
     unsubscribeFromMessages,
   } = useChatStore();
   const { authUser } = useAuthStore();
-  const messageEndRef = useRef(null);
+  const messageEndRef = useRef(null); // reference to the last message(scroll to the end)
 
   useEffect(() => {
     getMessages(selectedUser._id);
 
     subscribeToMessages();
-
     return () => unsubscribeFromMessages();
+
   }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
 
+  // scroll to the end of the messages, for a new message
   useEffect(() => {
     if (messageEndRef.current && messages) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
+  // loading skeleton: if messages are loading, show skeleton messages
   if (isMessagesLoading) {
     return (
       <div className="flex-1 flex flex-col overflow-auto">

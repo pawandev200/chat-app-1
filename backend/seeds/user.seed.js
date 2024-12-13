@@ -120,4 +120,3 @@ const seedDatabase = async () => {
 
 // Call the function
 seedDatabase();
-// export default seedDatabase;

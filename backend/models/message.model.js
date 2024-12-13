@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema(
   {
-    senderId: {
+    senderId: { // it is sender id which is of type ObjectId and ref is User
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,

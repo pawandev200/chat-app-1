@@ -1,10 +1,12 @@
 const MessageSkeleton = () => {
   // Create an array of 6 items for skeleton messages
-  const skeletonMessages = Array(6).fill(null);
+  const skeletonMessages = Array(6).fill(null); // at max 6 skeleton but depends on parent container height
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
-      {skeletonMessages.map((_, idx) => (
+      {skeletonMessages.map((_, idx) => ( 
+        // Even indexes (0, 2, 4) are chat-start (left-aligned).
+        // Odd indexes (1, 3, 5) are chat-end (right-aligned).
         <div key={idx} className={`chat ${idx % 2 === 0 ? "chat-start" : "chat-end"}`}>
           <div className="chat-image avatar">
             <div className="size-10 rounded-full">

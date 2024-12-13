@@ -3,13 +3,16 @@ import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
 import { useAuthStore } from "./useAuthStore";
 
+// creating a global store using Zustand, it is similar to hooks with global state, we can call this hook, destructured it and use in any component
 export const useChatStore = create((set, get) => ({
+  // Initial state of the store with thier default/initial values
   messages: [],
   users: [],
   selectedUser: null,
   isUsersLoading: false,
   isMessagesLoading: false,
 
+  // function to get all the users(except currnlty logged in) for sidebar 
   getUsers: async () => {
     set({ isUsersLoading: true });
     try {
@@ -22,6 +25,7 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
+  // function(take input of userid to others) to get all the messages between the logged in user and the selected user
   getMessages: async (userId) => {
     set({ isMessagesLoading: true });
     try {
@@ -33,6 +37,7 @@ export const useChatStore = create((set, get) => ({
       set({ isMessagesLoading: false });
     }
   },
+  // function(takes input message, text or image) to send message to the selected user
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     try {
@@ -43,6 +48,7 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
+  // function to listen new messages, only for selected user  
   subscribeToMessages: () => {
     const { selectedUser } = get();
     if (!selectedUser) return;
@@ -50,15 +56,16 @@ export const useChatStore = create((set, get) => ({
     const socket = useAuthStore.getState().socket;
 
     socket.on("newMessage", (newMessage) => {
+      // check if the message is sent from the selected user, 
       const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
-      if (!isMessageSentFromSelectedUser) return;
+      if (!isMessageSentFromSelectedUser) return; // if not, then return
 
-      set({
-        messages: [...get().messages, newMessage],
-      });
+      set({messages: [...get().messages, newMessage],});
     });
   },
 
+  // function to unsubscribe from getting new messages
+  // like when we switch to another user,logout or close the window, we need to unsubscribe from the previous user messages
   unsubscribeFromMessages: () => {
     const socket = useAuthStore.getState().socket;
     socket.off("newMessage");

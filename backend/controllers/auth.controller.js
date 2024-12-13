@@ -88,7 +88,7 @@ export const logout = (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const { profilePic } = req.body;
-    const userId = req.user._id;
+    const userId = req.user._id;  // from protectRoute middleware
 
     if (!profilePic) {
       return res.status(400).json({ message: "Profile pic is required" });
@@ -110,7 +110,7 @@ export const updateProfile = async (req, res) => {
 
 export const checkAuth = (req, res) => {
   try {
-    res.status(200).json(req.user);
+    res.status(200).json(req.user); // from protectRoute middleware
   } catch (error) {
     console.log("Error in checkAuth controller", error.message);
     res.status(500).json({ message: "Internal Server Error" });

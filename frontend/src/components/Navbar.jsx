@@ -40,6 +40,7 @@ const Navbar = () => {
                   <span className="hidden sm:inline">Profile</span>
                 </Link>
 
+                {/* onlcik of logout button, calling logout function, since it make the autuser to null so it will redirected to login page(App.jsx) */}
                 <button className="flex gap-2 items-center" onClick={logout}>
                   <LogOut className="size-5" />
                   <span className="hidden sm:inline">Logout</span>

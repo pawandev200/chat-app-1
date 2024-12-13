@@ -30,6 +30,7 @@ const SettingsPage = () => {
             >
               <div className="relative h-8 w-full rounded-md overflow-hidden" data-theme={t}>
                 <div className="absolute inset-0 grid grid-cols-4 gap-px p-1">
+                   {/* four different colors for each theme */}
                   <div className="rounded bg-primary"></div>
                   <div className="rounded bg-secondary"></div>
                   <div className="rounded bg-accent"></div>

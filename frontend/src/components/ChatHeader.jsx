@@ -3,21 +3,21 @@ import { useAuthStore } from "../store/useAuthStore";
 import { useChatStore } from "../store/useChatStore";
 
 const ChatHeader = () => {
-  const { selectedUser, setSelectedUser } = useChatStore();
-  const { onlineUsers } = useAuthStore();
+  const { selectedUser, setSelectedUser } = useChatStore(); //to show user info(name, profile pic)
+  const { onlineUsers } = useAuthStore(); // to show online/offline status 
 
   return (
     <div className="p-2.5 border-b border-base-300">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          {/* Avatar */}
+          {/* Avatar and user info */}
           <div className="avatar">
             <div className="size-10 rounded-full relative">
               <img src={selectedUser.profilePic || "/avatar.png"} alt={selectedUser.fullName} />
             </div>
           </div>
 
-          {/* User info */}
+          {/* User online status */}
           <div>
             <h3 className="font-medium">{selectedUser.fullName}</h3>
             <p className="text-sm text-base-content/70">
