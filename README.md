@@ -8,7 +8,7 @@ Welcome to the Full-Stack Realtime Chat Application! This project is designed to
   Secure user authentication system with JWT (JSON Web Tokens) ensures user login and access control.
 
 - **Real-Time Messaging:**
-  Enabled real-time messaging functionality through Socket.io, providing users with instant message delivery and a dynamic chat experience.
+  Enabled real-time messaging functionality through Socket.io, providing users with instant message delivery and a dynamic chat experience with notification sounds for new messages.
 
 - **Online User Status:**
   Implemented online user status feature using Socket.io and React Context, allowing users to see the online status of other users.
