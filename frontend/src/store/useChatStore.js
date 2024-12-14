@@ -2,6 +2,7 @@ import { create } from "zustand";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
 import { useAuthStore } from "./useAuthStore";
+import notificationsound from "../assets/sounds/notification.mp3";
 
 // creating a global store using Zustand, it is similar to hooks with global state, we can call this hook, destructured it and use in any component
 export const useChatStore = create((set, get) => ({
@@ -59,7 +60,8 @@ export const useChatStore = create((set, get) => ({
       // check if the message is sent from the selected user, 
       const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
       if (!isMessageSentFromSelectedUser) return; // if not, then return
-
+      const sound = new Audio(notificationsound);
+      sound.play();
       set({messages: [...get().messages, newMessage],});
     });
   },
