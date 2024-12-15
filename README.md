@@ -120,7 +120,6 @@ Welcome to the Full-Stack Realtime Chat Application! This project is designed to
 - Group Chat Support
 - Typing Indicators
 - Message Read Receipts
-- Enhanced Notification System
 - Audio and Video Calls
 - AI Integration
 
