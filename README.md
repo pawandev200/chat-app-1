@@ -15,7 +15,8 @@ Welcome to the Full-Stack Realtime Chat Application! This project is designed to
 
 - **Profile Updates with Media Sharing:**
   Update user profiles and share photos securely via Cloudinary, enhancing personalization and interaction.
-
+- **Customizable Themes:**
+  The application offers 32 dynamic themes, enabling users to personalize their chat experience. With themes like Light, Dark, Cupcake, and more, users can effortlessly switch between them for a customized and enjoyable interface.
 - **Global State Management:**
   Utilized Zustand for effective global state management, ensuring seamless state updates across components.
 
