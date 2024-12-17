@@ -3,6 +3,7 @@ import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
+//for the socket: 
 const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
 
 // Create a store using Zustand, it is similar to hooks with global state, we can call this hook, destructured it and use in any component
@@ -13,7 +14,7 @@ export const useAuthStore = create((set, get) => ({ // set is used to set the st
   isLoggingIn: false, //loading state for login
   isUpdatingProfile: false,
   isCheckingAuth: true,
-  onlineUsers: [],
+  onlineUsers: [], // contains list of userids(for online users), sent by backend socket's events 
   socket: null,
 
   // function to check if the user is authenticated or not
@@ -79,7 +80,7 @@ export const useAuthStore = create((set, get) => ({ // set is used to set the st
     set({ isUpdatingProfile: true });
     try {
       const res = await axiosInstance.put("/auth/update-profile", data);
-      set({ authUser: res.data }); // setting the autuser to newly updated data
+      set({ authUser: res.data }); // setting the authuser to newly updated data
       toast.success("Profile updated successfully");
     } catch (error) {
       console.log("error in update profile:", error);

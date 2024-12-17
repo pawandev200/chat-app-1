@@ -1,5 +1,3 @@
-// import { IoSearchSharp } from "react-icons/io5";
-
 import { useState, useEffect } from "react";
 import { useChatStore } from "../store/useChatStore";
 

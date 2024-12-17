@@ -14,7 +14,7 @@ Welcome to the Full-Stack Realtime Chat Application! This project is designed to
   Implemented online user status feature using Socket.io and React Context, allowing users to see the online status of other users.
 
 - **Profile Updates with Media Sharing:**
-  Update user profiles and share photos securely via Cloudinary, enhancing personalization and interaction.
+  Users can securely update their profiles and share photos using Cloudinary, enhancing personalization and improving user interaction.
 - **Customizable Themes:**
   The application offers 32 dynamic themes, enabling users to personalize their chat experience. With themes like Light, Dark, Cupcake, and more, users can effortlessly switch between them for a customized and enjoyable interface.
 - **Global State Management:**
