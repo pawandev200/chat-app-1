@@ -98,7 +98,7 @@ import SearchInput from "./SearchInput";
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
 
-  const { onlineUsers } = useAuthStore();
+  const { onlineUsers, authUser } = useAuthStore();
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
 
   //1. users: array of users fetched from the server
@@ -110,25 +110,112 @@ const Sidebar = () => {
   }, [getUsers]);
 
   // filtering users based on the online status
-  const filteredUsers = showOnlineOnly ? users.filter((user) => onlineUsers.includes(user._id))
-    : users;
+  const filteredUsers = showOnlineOnly ? users.filter((user) => onlineUsers.includes(user._id)): users;
+
+
+  // for stroing the messages usinsg contextId
+  const generateChatContextId = (user1, user2) => {
+    const ids = [user1._id, user2._id].sort(); // no matter who is sender and receiver, sort them to get the messages
+    return `${ids[0]}_${ids[1]}`;
+  };
 
   if (isUsersLoading) return <SidebarSkeleton />;
 
-  return (
+  // Extract the AI Assistant user if present
+  const aiUser = users.find((user) => user.fullName === "AI Assistant");
+
+
+//   return (
+//     <aside className="h-full w-30 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
+//   <div className="border-b border-base-300 w-full p-5">
+//     {/* Title and Search Bar Container */}
+//     <div className="flex items-center gap-2 mb-4"> {/* Added margin-bottom */}
+//       <Users className="size-6" />
+//       <span className="font-medium hidden lg:block">Contacts</span>
+//     </div>
+    
+//     {/* Search Input */}
+//     <SearchInput setSelectedUser={setSelectedUser} />
+
+//     {/* Online Filter Toggle */}
+//     <div className="mt-4 hidden lg:flex items-center gap-2">
+//       <label className="cursor-pointer flex items-center gap-2">
+//         <input
+//           type="checkbox"
+//           checked={showOnlineOnly}
+//           onChange={(e) => setShowOnlineOnly(e.target.checked)}
+//           className="checkbox checkbox-sm"
+//         />
+//         <span className="text-sm">Show online only</span>
+//       </label>
+//       <span className="text-xs text-zinc-500">({onlineUsers.length - 1} online)</span>
+//     </div>
+//   </div>
+
+//   {/* User List */}
+//   <div className="overflow-y-auto w-full py-3">
+//     {filteredUsers.map((user) => (
+//       <button
+//         key={user._id}
+//         onClick={() => setSelectedUser(user)}
+//         className={`
+//           w-full p-3 flex items-center gap-3
+//           hover:bg-base-300 transition-colors
+//           ${selectedUser?._id === user._id ? "bg-base-300 ring-1 ring-base-300" : ""}
+//         `}
+//       >
+//         <div className="relative mx-auto lg:mx-0">
+//           <img
+//             src={user.profilePic || "/avatar.png"}
+//             alt={user.name}
+//             className="size-12 object-cover rounded-full"
+//           />
+//           {onlineUsers.includes(user._id) && (
+//             <span
+//               className="absolute bottom-0 right-0 size-3 bg-green-500 
+//               rounded-full ring-2 ring-zinc-900"
+//             />
+//           )}
+//         </div>
+
+//         {/* User info - only visible on larger screens */}
+//         <div className="hidden lg:block text-left min-w-0">
+//           <div className="font-medium truncate">{user.fullName}</div>
+//           <div className="text-sm text-zinc-400">
+//             {onlineUsers.includes(user._id) ? "Online" : "Offline"}
+//           </div>
+//         </div>
+//       </button>
+//     ))}
+
+//     {filteredUsers.length === 0 && (
+//       <div className="text-center text-zinc-500 py-4">No online users</div>
+//     )}
+//   </div>
+// </aside>
+
+//   );
+// };
+// export default Sidebar;
+
+return (
     <aside className="h-full w-30 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
-  <div className="border-b border-base-300 w-full p-5">
-    {/* Title and Search Bar Container */}
-    <div className="flex items-center gap-2 mb-4"> {/* Added margin-bottom */}
+  <div className="border-b border-base-300 w-full p-3">
+    {/* Title and Search */}
+    <div className="flex items-center gap-2 mb-4">
       <Users className="size-6" />
       <span className="font-medium hidden lg:block">Contacts</span>
     </div>
-    
-    {/* Search Input */}
-    <SearchInput setSelectedUser={setSelectedUser} />
 
-    {/* Online Filter Toggle */}
-    <div className="mt-4 hidden lg:flex items-center gap-2">
+    {/* Search Input */}
+    {/* <SearchInput setSelectedUser={setSelectedUser} /> */}
+    <SearchInput onSelectUser={(user) => {
+      const chatContextId = generateChatContextId(authUser, user);
+      setSelectedUser(user, chatContextId); }} />
+
+
+    {/* Online Filter */}
+    <div className="mt-4 hidden lg:flex items-center gap-3">
       <label className="cursor-pointer flex items-center gap-2">
         <input
           type="checkbox"
@@ -140,50 +227,79 @@ const Sidebar = () => {
       </label>
       <span className="text-xs text-zinc-500">({onlineUsers.length - 1} online)</span>
     </div>
-  </div>
 
-  {/* User List */}
-  <div className="overflow-y-auto w-full py-3">
-    {filteredUsers.map((user) => (
+    {/* AI Assistant Button - placed below Online Filter */}
+    {aiUser && (
       <button
-        key={user._id}
-        onClick={() => setSelectedUser(user)}
+        onClick={() => {
+          const aiChatContextId = generateChatContextId(authUser, aiUser);
+          setSelectedUser(aiUser, aiChatContextId);
+        }}
         className={`
-          w-full p-3 flex items-center gap-3
+          w-full p-2 mt-4 flex items-center gap-3 rounded-md
           hover:bg-base-300 transition-colors
-          ${selectedUser?._id === user._id ? "bg-base-300 ring-1 ring-base-300" : ""}
+          ${selectedUser?._id === aiUser._id ? "bg-base-300 ring-1 ring-base-300" : ""}
         `}
       >
         <div className="relative mx-auto lg:mx-0">
           <img
-            src={user.profilePic || "/avatar.png"}
-            alt={user.name}
+            src={aiUser.profilePic || "/avatar.png"}
+            alt="AI Assistant"
             className="size-12 object-cover rounded-full"
           />
-          {onlineUsers.includes(user._id) && (
-            <span
-              className="absolute bottom-0 right-0 size-3 bg-green-500 
-              rounded-full ring-2 ring-zinc-900"
-            />
-          )}
+          {/* <span className="absolute bottom-0 right-0 size-3 bg-gray-400 rounded-full ring-2 ring-zinc-900" /> */}
         </div>
-
-        {/* User info - only visible on larger screens */}
         <div className="hidden lg:block text-left min-w-0">
-          <div className="font-medium truncate">{user.fullName}</div>
-          <div className="text-sm text-zinc-400">
-            {onlineUsers.includes(user._id) ? "Online" : "Offline"}
-          </div>
+          <div className="font-medium truncate">AI Assistant</div>
         </div>
       </button>
-    ))}
+    )}
+  </div> {/* closes the fixed top section with search & filters */}
 
-    {filteredUsers.length === 0 && (
-      <div className="text-center text-zinc-500 py-4">No online users</div>
+  {/* User List */}
+  <div className="overflow-y-auto w-full flex-1 relative">
+    {filteredUsers.map((user) => {
+      if (aiUser && user._id === aiUser._id) return null; // skip AI in user list
+      return (
+        <button
+          key={user._id}
+          onClick={() => {
+            const chatContextId = generateChatContextId(authUser, user);
+            setSelectedUser(user, chatContextId);
+          }}
+          className={`
+            w-full p-3 flex items-center gap-3
+            hover:bg-base-300 transition-colors
+            ${selectedUser?._id === user._id ? "bg-base-300 ring-1 ring-base-300" : ""}
+          `}
+        >
+          <div className="relative mx-auto lg:mx-0">
+            <img
+              src={user.profilePic || "/avatar.png"}
+              alt={user.fullName}
+              className="size-12 object-cover rounded-full"
+            />
+            {onlineUsers.includes(user._id) && (
+              <span className="absolute bottom-0 right-0 size-3 bg-green-500 rounded-full ring-2 ring-zinc-900" />
+            )}
+          </div>
+          <div className="hidden lg:block text-left min-w-0">
+            <div className="font-medium truncate">{user.fullName}</div>
+            <div className="text-sm text-zinc-400">
+              {onlineUsers.includes(user._id) ? "Online" : "Offline"}
+            </div>
+          </div>
+        </button>
+      );
+    })}
+
+    {filteredUsers.filter((u) => !aiUser || u._id !== aiUser._id).length === 0 && (
+      <div className="text-center text-zinc-500 py-4">No users found</div>
     )}
   </div>
 </aside>
 
   );
 };
+
 export default Sidebar;

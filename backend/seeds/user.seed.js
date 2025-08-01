@@ -99,6 +99,13 @@ const seedUsers = [
     password: "123456",
     profilePic: "https://randomuser.me/api/portraits/men/9.jpg",
   },
+  // the one ai user: for every ai reply: to maintain senderId and receiverId for messaging with ai
+  {
+    email: "ai@gmail.com",
+    fullName: "AI Assistant",
+    password: "irrelevant", // ai will never login so make it a dummy password
+    profilePic: "https://cdn-icons-png.flaticon.com/512/4712/4712106.png",
+  },
 ];
 
 // Hash passwords

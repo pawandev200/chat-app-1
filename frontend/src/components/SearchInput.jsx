@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useChatStore } from "../store/useChatStore";
 
-const SearchInput = ({ setSelectedUser }) => {
+const SearchInput = ({ onSelectUser }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const { users } = useChatStore();  // Fetching the users from the store
 
@@ -23,7 +23,7 @@ const SearchInput = ({ setSelectedUser }) => {
   // Handle Enter key press to select the first filtered user
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && filteredUsers.length > 0) {
-      setSelectedUser(filteredUsers[0]); // Select the first user from the filtered results
+      onSelectUser(filteredUsers[0]); // Select the first user from the filtered results
       setSearchQuery(""); // Clear the search query
     }
   };
@@ -49,7 +49,7 @@ const SearchInput = ({ setSelectedUser }) => {
               <div
                 key={user._id}
                 onClick={() => {
-                  setSelectedUser(user); // Select the clicked user
+                  onSelectUser(user); // Select the clicked user
                   setSearchQuery(""); // Clear the search query
                 }}
                 className="p-2 hover:bg-base-100 cursor-pointer"

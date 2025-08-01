@@ -7,7 +7,18 @@
     "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend",
     "start": "npm run start --prefix backend"
   },
-  "keywords": ["real-time", "chat", "messaging", "web application", "react", "socket.io", "MERN"],
+  "keywords": [
+    "real-time",
+    "chat",
+    "messaging",
+    "web application",
+    "react",
+    "socket.io",
+    "MERN"
+  ],
   "author": "Pawandev",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.10.0"
+  }
 }

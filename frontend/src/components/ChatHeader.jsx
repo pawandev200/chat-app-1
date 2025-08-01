@@ -6,6 +6,7 @@ const ChatHeader = () => {
   const { selectedUser, setSelectedUser } = useChatStore(); //to show user info(name, profile pic)
   const { onlineUsers } = useAuthStore(); // to show online/offline status 
 
+  // console.log("Selected user object:", selectedUser);
   return (
     <div className="p-2.5 border-b border-base-300">
       <div className="flex items-center justify-between">
@@ -21,7 +22,9 @@ const ChatHeader = () => {
           <div>
             <h3 className="font-medium">{selectedUser.fullName}</h3>
             <p className="text-sm text-base-content/70">
-              {onlineUsers.includes(selectedUser._id) ? "Online" : "Offline"}
+              {selectedUser._id?.toString() === "686047cb7a143aecd9fee73d"
+              ? "" // No label for AI Assistant or always online when you open
+              : onlineUsers.includes(selectedUser._id) ? "Online" : "Offline"}
             </p>
           </div>
         </div>

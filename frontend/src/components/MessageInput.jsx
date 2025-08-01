@@ -7,7 +7,8 @@ const MessageInput = () => {
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
-  const { sendMessage } = useChatStore();
+
+  const { sendMessage, sendAIMessage, selectedUser } = useChatStore();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -29,13 +30,35 @@ const MessageInput = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!text.trim() && !imagePreview) return;
+    const trimmedText = text.trim();
+    if (!trimmedText && !imagePreview) return;
+
+    const isAI = selectedUser?._id === "686047cb7a143aecd9fee73d";
 
     try {
-      await sendMessage({
-        text: text.trim(),
-        image: imagePreview,
-      });
+      //  If message starts with "@ai", send as AI prompt
+      if (trimmedText.startsWith("@ai")) {
+        const aiPrompt = trimmedText.replace("@ai", "").trim();
+        if (!aiPrompt) {
+          toast.error("Please enter a prompt after @ai");
+          return;
+        }
+        // await sendAIMessage(aiPrompt);
+        // await sendMessage({
+        //   text: aiPrompt,
+        //   image: imagePreview,
+        //   isAIFlow: true, //  Special flag to prevent DB saving 
+        // });
+        await sendAIMessage(aiPrompt);
+
+      } else if(isAI){  // if you are chatting with ai asistance
+        await sendAIMessage(trimmedText);
+      }else {
+        await sendMessage({
+          text: trimmedText,
+          image: imagePreview,
+        });
+      }
 
       // Clear form
       setText("");
@@ -46,6 +69,7 @@ const MessageInput = () => {
     }
   };
 
+  const isAI = selectedUser?._id === "686047cb7a143aecd9fee73d" || selectedUser?.fullName === "AI Assistant";
   return (
     <div className="p-4 w-full">
       {imagePreview && (
@@ -73,7 +97,11 @@ const MessageInput = () => {
           <input
             type="text"
             className="w-full input input-bordered rounded-lg input-sm sm:input-md"
-            placeholder="Type a message..."
+            // placeholder="Type a message..."
+            placeholder={
+              isAI ? "Type your question for the AI Assistant..."
+              : 'Type a message... (use "@ai your prompt" for AI Assistant)'
+            }
             value={text}
             onChange={(e) => setText(e.target.value)}
           />

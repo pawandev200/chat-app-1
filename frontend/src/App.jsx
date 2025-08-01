@@ -25,6 +25,13 @@ const App = () => {
     checkAuth();
   }, [checkAuth]);
 
+  // optinally: connecting the socket when the user is authenticated
+  // useEffect(() => {
+  //   if (authUser) {
+  //     useAuthStore.getState().connectSocket();
+  //   }
+  // }, [authUser]);
+
   // console.log({ authUser });
 
 // if the user is not authenticated and we are checking the authentication, we will show a loader

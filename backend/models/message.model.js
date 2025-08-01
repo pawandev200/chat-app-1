@@ -18,6 +18,17 @@ const messageSchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    chatContextId: { //  NEW: uniquely identifies this conversation thread
+      // type: mongoose.Schema.Types.ObjectId,
+      type: String,
+      required: true,
+    },
+    // NEW: status of the message, could be sent, delivered or read
+    status: {
+      type: String,
+      enum: ["sent", "delivered", "read"],
+      default: "sent",
+    },
   },
   { timestamps: true }
 );
