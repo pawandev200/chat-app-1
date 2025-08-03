@@ -11,7 +11,8 @@ export const useChatStore = create((set, get) => ({
   chatContextId: null,  // NEW: track which chat this is (user to user or user to AI)
   isUsersLoading: false,
   isMessagesLoading: false,
-  isLoadingAIResponse: false,
+  // isLoadingAIResponse: false,
+  isLoadingAIResponse: null,
 
   getUsers: async () => {
     set({ isUsersLoading: true });
@@ -69,18 +70,21 @@ export const useChatStore = create((set, get) => ({
     }
     try {
       // set({ isLoadingAIResponse: true });
+      // set({ isLoadingAIResponse: chatContextId });
       const res = await axiosInstance.post("/messages/ai/prompt", { prompt, chatContextId, receiverId: selectedUser._id,});
       // const { prompt: savedPrompt, reply: savedReply } = res.data;
 
       const savedPrompt = res.data;
       set((state) => ({ messages: [...state.messages, savedPrompt],})); // Immediately show prompt message in sender UI: for the sender own message
-      set({ isLoadingAIResponse: true });
+      // set({ isLoadingAIResponse: true });
+      set({ isLoadingAIResponse: chatContextId });
       // if you add the replyMsg manually here then two ai reply will be shown on UI, one this and another by socket by backend: this is how you implemented the backend
       //  Do NOT add savedReply here — it will be emitted via socket from backend
     
     } catch (error) {
       toast.error(error.message || "Failed to get AI reply");
-      set({ isLoadingAIResponse: false });
+      // set({ isLoadingAIResponse: false });
+      set({ isLoadingAIResponse: null });
     }
     // finally{
     //    set({ isLoadingAIResponse: false });  // handled in subcribe message when we receive ai response make it false
@@ -137,9 +141,10 @@ export const useChatStore = create((set, get) => ({
         const sound = new Audio(notificationsound);
         sound.play();
         set({ messages: [...get().messages, newMessage],
-          ...(isAIResponse && { isLoadingAIResponse: false }),
+          ...(isAIResponse && { isLoadingAIResponse: null }) // Reset loading state if AI response,
         });
       }
+      if(isAIResponse) set({ isLoadingAIResponse: null });
     });
 
     socket.on("messageStatusUpdate", ({ messageId, status }) => {

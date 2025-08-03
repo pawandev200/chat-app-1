@@ -15,6 +15,7 @@ const ChatContainer = () => {
     getMessages,
     isMessagesLoading,
     isLoadingAIResponse,
+    chatContextId,
     selectedUser,
     subscribeToMessages,
     unsubscribeFromMessages,
@@ -187,7 +188,7 @@ return (
         )}
 
         {/* Showing a loader if AI is generating a response */}
-        {isLoadingAIResponse && (
+        {isLoadingAIResponse ===chatContextId && (
           <div className="chat chat-start">
             <div className="chat-bubble bg-base-300 flex items-center gap-2 py-2 px-4 animate-[pulse_1.5s_infinite] rounded-xl">
               <span className="text-sm text-base-content">Generating response</span>
