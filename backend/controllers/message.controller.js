@@ -1,5 +1,5 @@
-import User from "../models/user.model.js";
 import Message from "../models/message.model.js";
+import User from "../models/user.model.js";
 
 import cloudinary from "../lib/cloudinary.js";
 import { getReceiverSocketId, io } from "../lib/socket.js";
@@ -62,12 +62,15 @@ export const sendMessage = async (req, res) => {
       return res.status(400).json({ error: "chatContextId is required" });
     }
 
-    //if user sends an image then upload it to cloudinary and response url saving to database
+    //if user sends an image then upload it to cloudinary and save the response url to database
     let imageUrl;
     if (image) { 
       // Upload base64 image to cloudinary
-      const uploadResponse = await cloudinary.uploader.upload(image);
+      const uploadResponse = await cloudinary.uploader.upload(image, {
+        folder: "chat-app-1/message-image", // specify the folder in Cloudinary
+      });
       imageUrl = uploadResponse.secure_url;
+      // console.log("Image uploaded to Cloudinary:", uploadResponse);
     }
 
     const newMessage = new Message({
